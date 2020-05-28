@@ -1,40 +1,41 @@
-/*
+package com.oxinhagg.webapp.storage;/*
   Array based storage for Resumes
  */
+
+import com.oxinhagg.webapp.model.Resume;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    int arrSize = 0;
+    private Resume[] storage = new Resume[10000];
+    private int arrSize = 0;
 
-    void clear() {
+    public void clear() {
         for (int i = 0; i < arrSize; i++) {
             storage[i] = null;
         }
         arrSize = 0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         storage[arrSize] = r;
         arrSize++;
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         for (int i = 0; i < arrSize; i++) {
-            if (uuid.equals(storage[i].uuid)) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return storage[i];
             }
         }
         return null;
     }
 
-    void delete(String uuid) {
-        int lastResume;
-        lastResume = arrSize - 1;
+    public void delete(String uuid) {
+        int lastResume = arrSize - 1;
         for (int i = 0; i < arrSize; i++) {
-            if (uuid.equals(storage[i].uuid)) {
+            if (uuid.equals(storage[i].getUuid())) {
                 if (i < lastResume) {
                     storage[i] = storage[lastResume];
                     storage[lastResume] = null;
@@ -50,11 +51,11 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         return Arrays.stream(storage).filter(Objects::nonNull).toArray(Resume[]::new);
     }
 
-    int size() {
+    public int size() {
         return arrSize;
     }
 }
