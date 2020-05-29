@@ -18,19 +18,15 @@ public class MainArray {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Resume r;
         while (true) {
-            System.out.print("Введите одну из команд - (list | save uuid | update uuid new_uuid | delete uuid | get uuid | clear | exit): ");
+            System.out.print("Введите одну из команд - (list | save uuid | update uuid | delete uuid | get uuid | clear | exit): ");
             String[] params = reader.readLine().trim().toLowerCase().split(" ");
-            if ((params.length < 1 || params.length > 3)) {
+            if ((params.length < 1 || params.length > 2)) {
                 System.out.println("Неверная команда.");
                 continue;
             }
             String uuid = null;
-            if (params.length >= 2) {
+            if (params.length == 2) {
                 uuid = params[1].intern();
-            }
-            String newUuid = null;
-            if (params.length == 3) {
-                newUuid = params[2].intern();
             }
             switch (params[0]) {
                 case "list":
@@ -47,8 +43,10 @@ public class MainArray {
                     break;
                 case "update":
                     r = ARRAY_STORAGE.get(uuid);
-                    ARRAY_STORAGE.update(r, newUuid);
+                    if (r != null){
+                    ARRAY_STORAGE.update(r);
                     printAll();
+                    }
                     break;
                 case "delete":
                     ARRAY_STORAGE.delete(uuid);

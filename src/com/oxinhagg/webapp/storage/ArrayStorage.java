@@ -12,81 +12,70 @@ public class ArrayStorage {
     private int arrSize = 0;
 
     public void clear() {
-        for (int i = 0; i < arrSize; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, arrSize, null);
         arrSize = 0;
 
     }
 
     public void save(Resume r) {
         String uuid = r.getUuid();
-        if (uuid_check_exist(uuid)){
+        int index = getObjectIndex(uuid);
+
+        if (index != -1){
+            System.out.println(String.format("Резюме с uuid = %s - уже существует!", uuid));
             return;
         }
+
         storage[arrSize] = r;
         arrSize++;
     }
 
     public Resume get(String uuid) {
-        Resume r = get_object(uuid);
-        if (r == null) {
+        int index = getObjectIndex(uuid);
+
+        if (index == -1) {
             System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
             return null;
         }
-        return r;
+
+        return storage[index];
     }
 
-    public void update(Resume resume, String newUuid){
-        if (uuid_check_exist(newUuid) || resume == null){
+    public void update(Resume resume){
+        String uuid = resume.getUuid();
+        int index = getObjectIndex(uuid);
+
+        if (index == -1){
+            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
             return;
         }
-        resume.setUuid(newUuid);
+
+        storage[index] = resume;
     }
 
     public void delete(String uuid) {
         int lastResume = arrSize - 1;
+        int index = getObjectIndex(uuid);
 
-        if (uuid_check_not_exist(uuid)){
+        if (index == -1){
+            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
             return;
         }
-        for (int i = 0; i < arrSize; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                if (i < lastResume) {
-                    storage[i] = storage[lastResume];
-                    storage[lastResume] = null;
-                } else {
-                    storage[i] = null;
-                }
-                arrSize--;
-                break;
-            }
-        }
+
+        storage[index] = storage[lastResume];
+        storage[lastResume] = null;
+        arrSize--;
     }
 
-    private Resume get_object(String uuid){
+    private int getObjectIndex(String uuid){
         for (int i = 0; i < arrSize; i++) {
             if (uuid.equals(storage[i].getUuid())) {
-                return storage[i];
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
-    private boolean uuid_check_exist(String uuid){
-        if (get_object(uuid) != null){
-            System.out.println(String.format("Резюме с uuid = %s - уже существует!", uuid));
-            return true;
-        }
-        return false;
-    }
-    private boolean uuid_check_not_exist(String uuid){
-        if (get_object(uuid) == null){
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
-            return true;
-        }
-        return false;
-    }
     /**
      * @return array, contains only Resumes in storage (without null)
      */
