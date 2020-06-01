@@ -8,7 +8,9 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private static final int STORAGE_LIMIT = 10000;
+
+    private Resume[] storage = new Resume[STORAGE_LIMIT];
     private int arrSize = 0;
 
     public void clear() {
@@ -24,7 +26,7 @@ public class ArrayStorage {
         if (index != -1){
             System.out.println(String.format("Резюме с uuid = %s - уже существует!", uuid));
             return;
-        } else if (arrSize == storage.length) {
+        } else if (arrSize == STORAGE_LIMIT) {
             System.out.println("Массив резюме переполнен!");
             return;
         }
