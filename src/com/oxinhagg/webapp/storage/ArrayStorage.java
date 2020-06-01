@@ -6,11 +6,7 @@ import com.oxinhagg.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class ArrayStorage implements Storage{
-    private static final int STORAGE_LIMIT = 10000;
-
-    private Resume[] storage = new Resume[STORAGE_LIMIT];
-    private int arrSize = 0;
+public class ArrayStorage extends AbstractArrayStorage{
 
     public void clear() {
         Arrays.fill(storage, 0, arrSize, null);
@@ -33,17 +29,6 @@ public class ArrayStorage implements Storage{
 
         storage[arrSize] = r;
         arrSize++;
-    }
-
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index == -1) {
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
-            return null;
-        }
-
-        return storage[index];
     }
 
     public void update(Resume resume){
@@ -71,7 +56,7 @@ public class ArrayStorage implements Storage{
         storage[arrSize] = null;
     }
 
-    private int getIndex(String uuid){
+    protected int getIndex(String uuid){
         for (int i = 0; i < arrSize; i++) {
             if (uuid.equals(storage[i].getUuid())) {
                 return i;
@@ -88,7 +73,5 @@ public class ArrayStorage implements Storage{
         return Arrays.copyOfRange(storage, 0, arrSize);
     }
 
-    public int size() {
-        return arrSize;
-    }
+
 }
