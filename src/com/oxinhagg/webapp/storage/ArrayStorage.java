@@ -5,9 +5,8 @@ package com.oxinhagg.webapp.storage;/*
 import com.oxinhagg.webapp.model.Resume;
 
 import java.util.Arrays;
-import java.util.Objects;
 
-public class ArrayStorage {
+public class ArrayStorage implements Storage{
     private static final int STORAGE_LIMIT = 10000;
 
     private Resume[] storage = new Resume[STORAGE_LIMIT];
