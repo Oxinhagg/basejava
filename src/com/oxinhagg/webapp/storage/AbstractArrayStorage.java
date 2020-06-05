@@ -4,6 +4,8 @@ package com.oxinhagg.webapp.storage;/*
 
 import com.oxinhagg.webapp.model.Resume;
 
+import java.util.Arrays;
+
 
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 100000;
@@ -13,6 +15,15 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public int size() {
         return arrSize;
+    }
+
+    public void clear() {
+        Arrays.fill(storage, 0, arrSize, null);
+        arrSize = 0;
+    }
+
+    public Resume[] getAll() {
+        return Arrays.copyOfRange(storage, 0, arrSize);
     }
 
     public Resume get(String uuid) {

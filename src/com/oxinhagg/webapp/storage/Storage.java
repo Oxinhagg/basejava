@@ -4,7 +4,6 @@ package com.oxinhagg.webapp.storage;/*
 
 import com.oxinhagg.webapp.model.Resume;
 
-import java.util.Arrays;
 
 public interface Storage {
 

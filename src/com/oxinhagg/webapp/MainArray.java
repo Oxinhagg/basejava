@@ -1,8 +1,7 @@
 package com.oxinhagg.webapp;
 
 import com.oxinhagg.webapp.model.Resume;
-import com.oxinhagg.webapp.storage.ArrayStorage;
-import com.oxinhagg.webapp.storage.Storage;
+import com.oxinhagg.webapp.storage.SortedArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,7 +12,8 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    //private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    private final static SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

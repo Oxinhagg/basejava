@@ -4,15 +4,7 @@ package com.oxinhagg.webapp.storage;/*
 
 import com.oxinhagg.webapp.model.Resume;
 
-import java.util.Arrays;
-
 public class ArrayStorage extends AbstractArrayStorage{
-
-    public void clear() {
-        Arrays.fill(storage, 0, arrSize, null);
-        arrSize = 0;
-
-    }
 
     public void save(Resume r) {
         String uuid = r.getUuid();
@@ -64,14 +56,4 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
         return -1;
     }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    public Resume[] getAll() {
-        //return Arrays.stream(storage).filter(Objects::nonNull).toArray(Resume[]::new);
-        return Arrays.copyOfRange(storage, 0, arrSize);
-    }
-
-
 }
