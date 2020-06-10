@@ -6,44 +6,13 @@ import com.oxinhagg.webapp.model.Resume;
 
 public class ArrayStorage extends AbstractArrayStorage{
 
-    public void save(Resume r) {
-        String uuid = r.getUuid();
-        int index = getIndex(uuid);
-
-        if (index != -1){
-            System.out.println(String.format("Резюме с uuid = %s - уже существует!", uuid));
-            return;
-        } else if (arrSize == STORAGE_LIMIT) {
-            System.out.println("Массив резюме переполнен!");
-            return;
-        }
-
-
-        storage[arrSize] = r;
-        arrSize++;
+    @Override
+    protected void insertObject(Resume r, int index) {
+        storage[index] = r;
     }
 
-    public void update(Resume resume){
-        String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-
-        if (index == -1){
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
-            return;
-        }
-
-        storage[index] = resume;
-    }
-
-    public void delete(String uuid) {
-        int index = getIndex(uuid);
-
-        if (index == -1){
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
-            return;
-        }
-
-        arrSize--;
+    @Override
+    protected void deleteObject(int index) {
         storage[index] = storage[arrSize];
         storage[arrSize] = null;
     }
@@ -55,5 +24,9 @@ public class ArrayStorage extends AbstractArrayStorage{
             }
         }
         return -1;
+    }
+
+    protected int getIndex(Resume searchKey){
+        return getIndex(searchKey.getUuid());
     }
 }
