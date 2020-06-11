@@ -7,14 +7,13 @@ import com.oxinhagg.webapp.model.Resume;
 public class ArrayStorage extends AbstractArrayStorage{
 
     @Override
-    protected void insertObject(Resume r, int index) {
+    protected void insertElement(Resume r, int index) {
         storage[arrSize] = r;
     }
 
     @Override
-    protected void deleteObject(int index) {
+    protected void deleteElement(int index) {
         storage[index] = storage[arrSize];
-        storage[arrSize] = null;
     }
 
     @Override

@@ -45,7 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println(String.format("Резюме с uuid = %s - уже существует!", resume.getUuid()));
             return;
         }
-        insertObject(resume, index);
+        insertElement(resume, index);
         arrSize++;
     }
 
@@ -65,12 +65,13 @@ public abstract class AbstractArrayStorage implements Storage {
             return;
         }
         arrSize--;
-        deleteObject(index);
+        deleteElement(index);
+        storage[arrSize] = null;
     }
 
-    protected abstract void insertObject(Resume r, int index);
+    protected abstract void insertElement(Resume r, int index);
 
-    protected abstract void deleteObject(int index);
+    protected abstract void deleteElement(int index);
 
     protected abstract int getIndex(String uuid);
 
