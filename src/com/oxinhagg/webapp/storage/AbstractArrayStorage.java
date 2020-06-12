@@ -28,20 +28,20 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index < 0) {
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
-            return null;
+        if (index > -1) {
+            return storage[index];
         }
-        return storage[index];
+        System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
+        return null;
     }
 
     public void save(Resume resume){
-        int index = getIndex(resume);
+        int index = getIndex(resume.getUuid());
         if (arrSize == STORAGE_LIMIT) {
             System.out.println("Массив резюме переполнен!");
             return;
         }
-        if (index >= 0){
+        if (index > -1){
             System.out.println(String.format("Резюме с uuid = %s - уже существует!", resume.getUuid()));
             return;
         }
@@ -50,23 +50,23 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void update(Resume resume){
-        int index = getIndex(resume);
-        if (index == -1){
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", resume.getUuid()));
+        int index = getIndex(resume.getUuid());
+        if (index > -1){
+            storage[index] = resume;
             return;
         }
-        storage[index] = resume;
+        System.out.println(String.format("Резюме с uuid = %s - не существует!", resume.getUuid()));
     }
 
     public void delete(String uuid){
         int index = getIndex(uuid);
-        if (index < 0){
-            System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
+        if (index > -1){
+            arrSize--;
+            deleteElement(index);
+            storage[arrSize] = null;
             return;
         }
-        arrSize--;
-        deleteElement(index);
-        storage[arrSize] = null;
+        System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
     }
 
     protected abstract void insertElement(Resume r, int index);
@@ -74,6 +74,4 @@ public abstract class AbstractArrayStorage implements Storage {
     protected abstract void deleteElement(int index);
 
     protected abstract int getIndex(String uuid);
-
-    protected abstract int getIndex(Resume resume);
 }
