@@ -1,7 +1,9 @@
 package com.oxinhagg.webapp;
 
 import com.oxinhagg.webapp.model.Resume;
+import com.oxinhagg.webapp.storage.ArrayStorage;
 import com.oxinhagg.webapp.storage.SortedArrayStorage;
+import com.oxinhagg.webapp.storage.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,8 +14,8 @@ import java.io.InputStreamReader;
  * (just run, no need to understand)
  */
 public class MainArray {
-    //private final static Storage ARRAY_STORAGE = new ArrayStorage();
-    private final static SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
+    private final static Storage ARRAY_STORAGE = new ArrayStorage();
+    //private final static SortedArrayStorage ARRAY_STORAGE = new SortedArrayStorage();
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -37,17 +39,14 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume();
-                    r.setUuid(uuid);
+                    r = new Resume(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
                 case "update":
-                    r = ARRAY_STORAGE.get(uuid);
-                    if (r != null){
+                    r = new Resume(uuid);
                     ARRAY_STORAGE.update(r);
                     printAll();
-                    }
                     break;
                 case "delete":
                     ARRAY_STORAGE.delete(uuid);

@@ -2,6 +2,9 @@ package com.oxinhagg.webapp.storage;/*
   Array based storage for Resumes
  */
 
+import com.oxinhagg.webapp.exception.ExistsStorageException;
+import com.oxinhagg.webapp.exception.NotExistStorageException;
+import com.oxinhagg.webapp.exception.StorageException;
 import com.oxinhagg.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -31,19 +34,16 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index > -1) {
             return storage[index];
         }
-        System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     public void save(Resume resume){
         int index = getIndex(resume.getUuid());
         if (arrSize == STORAGE_LIMIT) {
-            System.out.println("Массив резюме переполнен!");
-            return;
+            throw new StorageException(resume.getUuid(), "Массив переполнен!");
         }
         if (index > -1){
-            System.out.println(String.format("Резюме с uuid = %s - уже существует!", resume.getUuid()));
-            return;
+            throw new ExistsStorageException(resume.getUuid());
         }
         insertElement(resume, index);
         arrSize++;
@@ -55,7 +55,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = resume;
             return;
         }
-        System.out.println(String.format("Резюме с uuid = %s - не существует!", resume.getUuid()));
+        throw new NotExistStorageException(resume.getUuid());
     }
 
     public void delete(String uuid){
@@ -66,7 +66,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[arrSize] = null;
             return;
         }
-        System.out.println(String.format("Резюме с uuid = %s - не существует!", uuid));
+        throw new NotExistStorageException(uuid);
     }
 
     protected abstract void insertElement(Resume r, int index);

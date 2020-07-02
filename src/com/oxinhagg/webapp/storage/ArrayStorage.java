@@ -25,9 +25,4 @@ public class ArrayStorage extends AbstractArrayStorage{
         }
         return -1;
     }
-
-    @Override
-    protected int getIndex(Resume searchKey){
-        return getIndex(searchKey.getUuid());
-    }
 }
