@@ -18,7 +18,9 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_3 = "uuid3";
     private static final int STORAGE_LIMIT = 100000;
 
-
+    public AbstractArrayStorageTest(Storage storage) {
+        this.storage = storage;
+    }
 
     @Before
     public void setUp() {
@@ -64,14 +66,19 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = ExistsStorageException.class)
-    public void saveExist(){ storage.save(new Resume(UUID_1)); }
+    public void saveExist() {
+        storage.save(new Resume(UUID_1));
+    }
 
     @Test
     public void saveOverflow() {
-        for (int i = 0; i < STORAGE_LIMIT-3; i++){
+        for (int i = 0; i < STORAGE_LIMIT - 3; i++) {
             storage.save(new Resume(String.valueOf(i)));
         }
-        try { storage.save(new Resume()); } catch (StorageException ignore){ }
+        try {
+            storage.save(new Resume());
+        } catch (StorageException ignore) {
+        }
     }
 
     @Test
@@ -85,5 +92,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void deleteNotExist(){ storage.delete("dummy"); }
+    public void deleteNotExist() {
+        storage.delete("dummy");
+    }
 }

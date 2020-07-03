@@ -2,6 +2,6 @@ package com.oxinhagg.webapp.storage;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest{
     public ArrayStorageTest() {
-        storage = new ArrayStorage();
+        super(new ArrayStorage());
     }
 }
