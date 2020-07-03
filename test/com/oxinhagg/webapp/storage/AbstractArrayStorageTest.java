@@ -7,6 +7,7 @@ import com.oxinhagg.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.oxinhagg.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractArrayStorageTest {
@@ -23,8 +24,6 @@ public abstract class AbstractArrayStorageTest {
 
     private static final String UUID_4 = "uuid4";
     private static final Resume R4 = new Resume(UUID_4);
-
-    private static final int STORAGE_LIMIT = 100000;
 
     protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -60,14 +59,14 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void get() {
-        storage.get(UUID_1);
-        storage.get(UUID_2);
-        storage.get(UUID_3);
+        assertEquals(R1, storage.get(UUID_1));
+        assertEquals(R2, storage.get(UUID_2));
+        assertEquals(R3, storage.get(UUID_3));
     }
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
-        storage.get("dummy");
+        storage.get(UUID_4);
     }
 
     @Test
