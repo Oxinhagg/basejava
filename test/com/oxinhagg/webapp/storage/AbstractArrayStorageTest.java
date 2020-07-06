@@ -4,11 +4,13 @@ import com.oxinhagg.webapp.exception.ExistsStorageException;
 import com.oxinhagg.webapp.exception.NotExistStorageException;
 import com.oxinhagg.webapp.exception.StorageException;
 import com.oxinhagg.webapp.model.Resume;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import static com.oxinhagg.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractArrayStorageTest {
     private Storage storage;
@@ -81,25 +83,29 @@ public abstract class AbstractArrayStorageTest {
         storage.save(new Resume(UUID_1));
     }
 
-    @Test
+    @Test(expected = StorageException.class)
     public void saveOverflow() {
-        for (int i = 0; i < STORAGE_LIMIT - 3; i++) {
-            storage.save(new Resume(String.valueOf(i)));
-        }
         try {
-            storage.save(new Resume());
-        } catch (StorageException ignore) {
+            for (int i = 4; i < STORAGE_LIMIT; i++) {
+                storage.save(new Resume(String.valueOf(i)));
+            }
+        } catch (Exception e) {
+            Assert.fail();
         }
+        storage.save(new Resume());
     }
 
     @Test
     public void update() {
-        storage.update(R3);
-        assertEquals(R3, storage.get(UUID_3));
+        Resume newResume = new Resume(UUID_1);
+        storage.update(newResume);
+        assertSame(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void updateNotExist(){ storage.update(R4); }
+    public void updateNotExist() {
+        storage.update(R4);
+    }
 
     @Test(expected = NotExistStorageException.class)
     public void delete() {
@@ -110,7 +116,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void deleteNotExist() {
-        storage.delete("dummy");
+        storage.delete(UUID_4);
     }
 
     private void assertSize(int size) {
