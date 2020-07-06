@@ -1,7 +1,6 @@
 package com.oxinhagg.webapp;
 
 import com.oxinhagg.webapp.model.Resume;
-import org.jsoup.Connection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +17,7 @@ public class MainReflection {
         field.set(r, "new_uuid");
         //TODO : invoke r.toString via reflection
         Method method = r.getClass().getDeclaredMethod("toString");
-        System.out.println(method.invoke(r, null));
+        System.out.println(method.invoke(r));
 
         System.out.println(r);
     }
